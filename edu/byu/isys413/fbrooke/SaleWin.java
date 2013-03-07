@@ -776,21 +776,25 @@ public class SaleWin {
 		tran.setStoreId(store.getId());
 		tran.setEmpId(emp.getId());
 		tran.setEntrydate(new Date());
+		//tran.save();
 		
+		PaymentWin paywin = new PaymentWin(shlSaleWindow, 0, tran);
+		paywin.open();
+		{
 		//Save Payment
-		Payment pay = BusinessObjectDAO.getInstance().create("Payment");
-		pay.setAmount(tran.getTotal());
-		pay.setPaytype("Cash");
-		pay.setTranid(tran.getId());
-		pay.save();
-		tran.setPaymentId(pay.getId());
+//		Payment pay = BusinessObjectDAO.getInstance().create("Payment");
+//		pay.setAmount(tran.getTotal());
+//		pay.setPaytype("Cash");
+//		pay.setTranid(tran.getId());
+//		pay.save();
+		//tran.setPaymentId(pay.getId());
 		
 		//Save Commission
 		comm = BusinessObjectDAO.getInstance().create("Commission");
 		tran.setCommissionId(comm.getId());
 		comm.setEmpId(emp.getId());
 		comm.setEntryDate(new Date());
-
+		comm.setTranId(tran.getId());
 		comm.setAmt(getComm());
 		System.out.println(comm.getAmt());
 		comm.save();
@@ -854,6 +858,7 @@ public class SaleWin {
 		System.out.println("JournalEntry " + t1.getJe().getEntrydate());
 		System.out.println("Commission " + t1.getComm().getAmt());
 		System.out.println("Payment " + t1.getPayment().getAmount());
+		}
 		}
 	}
 
